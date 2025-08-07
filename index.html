@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kovrin | A digital notebook on minds, machines, and meaning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #0f1419;
+            color: #e2e8f0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 150, 143, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 150, 143, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(15, 20, 25, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .nav-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 70px;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            gap: 2px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 10px 18px;
+            color: rgba(226, 232, 240, 0.7);
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .nav-link:hover {
+            color: #ff968f;
+            background: rgba(255, 150, 143, 0.08);
+            border-color: rgba(255, 150, 143, 0.2);
+        }
+
+        .nav-link.active {
+            color: #ff968f;
+            background: rgba(255, 150, 143, 0.12);
+            border-color: rgba(255, 150, 143, 0.3);
+            font-weight: 600;
+        }
+
+        .nav-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 6px;
+        }
+
+        header {
+            padding: 120px 0 80px;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(15, 20, 25, 0.8) 0%, rgba(15, 20, 25, 1) 100%);
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            color: #ff968f;
+            margin-bottom: 30px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .intro-text {
+            max-width: 800px;
+            margin: 0 auto 48px;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: rgba(226, 232, 240, 0.85);
+            text-align: center;
+        }
+
+        .journal-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 18px 36px;
+            background: linear-gradient(135deg, #ff968f 0%, #ed6071 100%);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(255, 150, 143, 0.3);
+        }
+
+        .journal-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .journal-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 
+                0 15px 50px rgba(255, 150, 143, 0.4),
+                0 0 0 1px rgba(255, 150, 143, 0.1);
+        }
+
+        .journal-btn:hover::before {
+            left: 100%;
+        }
+
+        main {
+            padding: 80px 0;
+        }
+
+        .section {
+            margin-bottom: 80px;
+        }
+
+        .section-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 50px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .section-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .section-card:hover::before {
+            opacity: 1;
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.07);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .philosophy {
+            background: rgba(255, 150, 143, 0.05);
+            border: 1px solid rgba(255, 150, 143, 0.2);
+        }
+
+        .philosophy .section-title {
+            background: linear-gradient(135deg, #ff968f 0%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .philosophy::before {
+            background: linear-gradient(90deg, transparent, #ff968f, transparent);
+        }
+
+        .exploration {
+            background: rgba(237, 96, 113, 0.05);
+            border: 1px solid rgba(237, 96, 113, 0.2);
+        }
+
+        .exploration .section-title {
+            background: linear-gradient(135deg, #ed6071 0%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .exploration::before {
+            background: linear-gradient(90deg, transparent, #ed6071, transparent);
+        }
+
+        .learning {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .learning .section-title {
+            background: linear-gradient(135deg, #ffffff 0%, #ff968f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .learning::before {
+            background: linear-gradient(90deg, transparent, #ffffff, transparent);
+        }
+
+        .dev-indicator {
+            display: inline-block;
+            font-size: 0.8rem;
+            color: #ff968f;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 16px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            border: 1px solid rgba(255, 150, 143, 0.3);
+            margin-bottom: 20px;
+        }
+
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #ffffff;
+        }
+
+        .section-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(226, 232, 240, 0.85);
+        }
+
+        .section-content p {
+            margin-bottom: 20px;
+        }
+
+        .highlight-text {
+            color: #ff968f;
+            font-weight: 600;
+        }
+
+        footer {
+            background: rgba(10, 10, 15, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-text {
+            color: rgba(226, 232, 240, 0.6);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #e2e8f0;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-content {
+                justify-content: space-between;
+            }
+
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(15, 20, 25, 0.98);
+                backdrop-filter: blur(20px);
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                padding: 20px 0;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-link {
+                width: calc(100% - 32px);
+                margin: 4px 16px;
+                padding: 12px 16px;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .logo {
+                font-size: 2.8rem;
+            }
+
+            .tagline {
+                font-size: 1.1rem;
+            }
+
+            .intro-text {
+                font-size: 1.1rem;
+                margin-bottom: 36px;
+            }
+
+            .journal-btn {
+                padding: 16px 32px;
+                font-size: 1rem;
+            }
+
+            .section-card {
+                padding: 35px;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .section-content {
+                font-size: 1rem;
+            }
+
+            .intro-text {
+                font-size: 1rem;
+            }
+        }
+
+        .section-card {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .section-card:nth-child(1) { animation-delay: 0.2s; }
+        .section-card:nth-child(2) { animation-delay: 0.4s; }
+        .section-card:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <button class="nav-toggle" onclick="toggleNav()">☰</button>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item">
+                    <a href="/index.html" class="nav-link active">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                        </svg>
+                        Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/journal.html" class="nav-link">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/>
+                        </svg>
+                        Journal
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/projects/index.html" class="nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09c.66 0 1.26-.39 1.51-1a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09c.61-.16 1-.75 1-1.37V3a2 2 0 1 1 4 0v.09c0 .66.39 1.26 1 1.51h.09c.41.17.87.11 1.22-.13a1.65 1.65 0 0 0 .6-.6 2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09c.16.61.75 1 1.37 1H21a2 2 0 1 1 0 4h-.09c-.62 0-1.21.39-1.37 1z"/>
+                        </svg>
+                        Projects
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <h1 class="logo">Kovrin</h1>
+            <p class="tagline">A digital notebook on minds, machines, and meaning.</p>
+            <p class="intro-text">This is my learning journal; a living archive of thoughts, fragments, and questions. I write about computation, behaviour, consciousness, and anything that helps me understand how systems, human or machine, come to life.</p>
+            <a href="/journal.html" class="journal-btn">Read the Journal</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="section">
+                <div class="section-card philosophy">
+                    
+                    <h2 class="section-title">Philosophy</h2>
+                    <div class="section-content">
+                        <p>I believe that the greatest power of the human mind lies in <span class="highlight-text">independent thought</span>, the willingness to ask questions rather than simply accepting inherited beliefs. This space is devoted to exploring the boundary between human consciousness and machine intelligence, inspired by works like NieR: Automata and the profound philosophical questions they pose about free will, identity, and mechanistic thought."</p>
+                        <p>Every system, whether biological or artificial, operates on principles we're still learning to understand. My writing here reflects an ongoing conversation with these ideas, a <span class="highlight-text">philosophical playground</span> where thoughts can evolve and contradict themselves.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="section-card exploration">
+                    <h2 class="section-title">Areas of Exploration</h2>
+                    <div class="section-content">
+                        <p>My focus spans <span class="highlight-text">cognitive science</span>, computation, automata theory, machine behavior, learning systems, and human consciousness. I'm particularly interested in how these domains intersect and what they reveal about the nature of intelligence itself.</p>
+                        <p>Current explorations include <span class="highlight-text">systems thinking</span>, the mechanics of learning, and the philosophical implications of artificial intelligence. Each post is a fragment of understanding, a step in an ongoing journey of discovery.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="section-card learning">
+                    <h2 class="section-title">Learning as Daily Practice</h2>
+                    <div class="section-content">
+                        <p>This journal represents <span class="highlight-text">learning as a daily act</span>, not polished conclusions, but raw thoughts in progress. I write to understand, to question, and to connect ideas across disciplines that don't often speak to each other.</p>
+                        <p>The goal is to create a space that feels <span class="highlight-text">personal, thoughtful, raw, and alive</span>, not a polished publication or portfolio, but a genuine exploration of ideas that matter to me and might resonate with others on similar paths.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p class="footer-text">"The soul becomes dyed with the color of its thoughts." — Marcus Aurelius</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleNav() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        // Smooth scrolling for anchor links
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('a[href^="#"]');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+
+
+    </script>
+</body>
+</html>
