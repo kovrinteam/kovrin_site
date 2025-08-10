@@ -4,273 +4,366 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Difference Between Mimicking and Meaning | Kovrin</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/*
+  Kovrin Theme — True NieR: Automata aesthetic
+  Muted sandy/beige colors, soft pastels, no bright accents
+*/
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            background: #0f1419;
-            color: #e2e8f0;
-            line-height: 1.7;
-            min-height: 100vh;
-        }
+:root {
+  /* NieR: Automata palette - soft sandy/beige tones */
+  --bg-primary: #F5F3F0;
+  --bg-secondary: #EAE7E2;
+  --bg-panel: #F8F6F3;
+  --bg-overlay: #FDFCFA;
+  --bg-dark: #D4D0C8;
+  
+  /* Soft muted text colors */
+  --text-primary: #4A453E;
+  --text-secondary: #6B645A;
+  --text-muted: #8B8078;
+  --text-light: #A39A8E;
+  --text-dark: #2C2A27;
+  
+  /* Muted pastel accents - very soft and faded */
+  --accent-sage: #8A9B8E;
+  --accent-dust: #B5A599;
+  --accent-stone: #9B9B9B;
+  --accent-warm: #C4B5A0;
+  --accent-cool: #A3B5C4;
+  
+  /* Borders and lines - very subtle */
+  --border-primary: #D4D0C8;
+  --border-light: #E2DED7;
+  --border-accent: #A3B5C4;
+  
+  /* Soft shadows */
+  --shadow-soft: 0 2px 8px rgba(44, 42, 39, 0.08);
+  --shadow-medium: 0 4px 16px rgba(44, 42, 39, 0.12);
+  
+  --radius: 3px;
+  --maxw: 800px;
+}
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(255, 150, 143, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 150, 143, 0.02) 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: -1;
-            opacity: 0.3;
-        }
+* { box-sizing: border-box; }
+html, body { height: 100%; }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+body {
+  margin: 0;
+  font-family: 'Exo 2', system-ui, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 400;
+  font-size: 16px;
+}
 
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(15, 20, 25, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
+/* Subtle NieR texture */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: 
+    radial-gradient(1px 1px at 25px 25px, rgba(44, 42, 39, 0.015), transparent),
+    radial-gradient(1px 1px at 75px 75px, rgba(44, 42, 39, 0.01), transparent);
+  background-size: 50px 50px, 100px 100px;
+  z-index: -1;
+}
 
-        .nav-content {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 70px;
-        }
+.container {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 24px;
+}
 
-        .nav-logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #ff968f;
-            text-decoration: none;
-        }
+/* Typography */
+h1, h2, h3, h4 { 
+  font-family: monospace;
+  font-weight: 500;
+  color: var(--text-dark);
+  letter-spacing: 0.5px;
+  margin: 0;
+}
 
-        .nav-link {
-            color: rgba(226, 232, 240, 0.7);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
+h1 { 
+  font-weight: 600;
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-dark);
+}
 
-        .nav-link:hover {
-            color: #ff968f;
-        }
+h2 { 
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+  margin: 40px 0 20px;
+}
 
-        article {
-            padding: 120px 0 80px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
+h3 { 
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+  color: var(--accent-sage);
+  font-weight: 500;
+}
 
-        .post-header {
-            margin-bottom: 50px;
-            text-align: center;
-        }
+/* Links */
+a {
+  color: var(--accent-sage);
+  text-decoration: none;
+  transition: all 200ms ease;
+}
 
-        .post-title {
-            font-size: 3rem;
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 20px;
-            line-height: 1.1;
-        }
+a:hover { 
+  color: var(--accent-cool);
+}
 
-        .post-subtitle {
-            font-size: 1.3rem;
-            color: #ff968f;
-            font-style: italic;
-            margin-bottom: 30px;
-        }
+/* Navigation */
+nav.site-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 60px;
+  background: rgba(248, 246, 243, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-light);
+  z-index: 1000;
+  box-shadow: var(--shadow-soft);
+}
 
-        .post-meta {
-            color: rgba(226, 232, 240, 0.6);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+.nav-content { 
+  height: 60px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+}
 
-        .post-content {
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
+.brand { 
+  display: inline-flex; 
+  align-items: center; 
+  gap: 12px; 
+  font-family: monospace;
+  font-weight: 600; 
+  color: var(--text-dark);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
 
-        .post-content p {
-            margin-bottom: 24px;
-            color: rgba(226, 232, 240, 0.9);
-        }
+.brand .brand-mark { 
+  width: 6px; 
+  height: 6px; 
+  background: var(--accent-sage);
+  border-radius: var(--radius);
+}
 
-        .post-content h2 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #ff968f;
-            margin: 50px 0 25px 0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+  transition: all 200ms ease;
+  font-family: monospace;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 400;
+}
 
-        .post-content h3 {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #ffffff;
-            margin: 40px 0 20px 0;
-        }
+.back-link:hover { 
+  color: var(--text-dark); 
+  border-color: var(--border-accent);
+  background: rgba(163, 181, 196, 0.1);
+}
 
-        .highlight {
-            color: #ff968f;
-            font-weight: 600;
-        }
+.back-link::before {
+  content: '←';
+  font-size: 1rem;
+}
 
-        .emphasis {
-            font-style: italic;
-            color: #ffffff;
-            font-weight: 500;
-        }
+/* Article Layout */
+article {
+  padding: 100px 0 80px;
+  margin-top: 60px;
+}
 
-        .quote-block {
-            background: rgba(255, 150, 143, 0.08);
-            border-left: 4px solid #ff968f;
-            padding: 25px 30px 25px 50px;
-            margin: 35px 0;
-            border-radius: 0 8px 8px 0;
-            font-style: italic;
-            color: rgba(226, 232, 240, 0.95);
-            position: relative;
-        }
+.post-header {
+  text-align: center;
+  margin-bottom: 50px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid var(--border-light);
+}
 
-        .quote-block::before {
-            content: '"';
-            font-size: 2.5rem;
-            color: rgba(255, 150, 143, 0.3);
-            position: absolute;
-            top: 10px;
-            left: 15px;
-            font-family: serif;
-        }
+.post-title {
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
 
-        .quote-source {
-            text-align: right;
-            margin-top: 15px;
-            font-size: 0.9rem;
-            color: #ff968f;
-            font-weight: 500;
-        }
+.post-subtitle {
+  font-family: 'Exo 2', system-ui, sans-serif;
+  font-size: 1.2rem;
+  color: var(--accent-sage);
+  font-style: italic;
+  margin-bottom: 20px;
+  font-weight: 300;
+}
 
-        .thought-box {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 30px;
-            margin: 35px 0;
-            position: relative;
-        }
+.post-meta {
+  color: var(--text-muted);
+  font-family: monospace;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 400;
+}
 
-        .thought-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #ff968f, transparent);
-            border-radius: 12px 12px 0 0;
-        }
+/* Content styling */
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  font-weight: 300;
+}
 
-        .section-icon {
-            font-size: 1.5rem;
-        }
+.post-content p {
+  margin-bottom: 24px;
+  color: var(--text-secondary);
+}
 
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            color: #ff968f;
-            text-decoration: none;
-            font-weight: 500;
-            margin-bottom: 30px;
-            transition: color 0.3s ease;
-        }
+.post-content h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 50px 0 25px 0;
+}
 
-        .back-link:hover {
-            color: #ffffff;
-        }
+.post-content h2::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--accent-sage);
+  border-radius: 1px;
+  opacity: 0.7;
+}
 
-        .back-link::before {
-            content: '←';
-            margin-right: 8px;
-            font-size: 1.2rem;
-        }
+.highlight {
+  color: var(--accent-sage);
+  font-weight: 500;
+}
 
-        @media (max-width: 768px) {
-            .post-title {
-                font-size: 2.2rem;
-            }
-            
-            .post-subtitle {
-                font-size: 1.1rem;
-            }
-            
-            .post-content {
-                font-size: 1rem;
-            }
-            
-            .quote-block, .thought-box {
-                padding: 20px;
-                margin: 25px 0;
-            }
+.emphasis {
+  font-style: italic;
+  color: var(--text-dark);
+  font-weight: 400;
+}
 
-            .quote-block::before {
-                font-size: 2rem;
-                top: 10px;
-                left: 10px;
-            }
-        }
+/* Quote blocks */
+.quote-block {
+  background: rgba(138, 155, 142, 0.08);
+  border-left: 2px solid var(--accent-sage);
+  padding: 24px 28px;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-style: italic;
+  color: var(--text-primary);
+  margin: 35px 0;
+  position: relative;
+}
 
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s ease forwards;
-        }
+.quote-block::before {
+  content: '"';
+  position: absolute;
+  top: -5px;
+  left: 12px;
+  font-size: 2rem;
+  color: var(--accent-sage);
+  opacity: 0.3;
+  font-family: serif;
+}
 
-        .fade-in:nth-child(1) { animation-delay: 0.1s; }
-        .fade-in:nth-child(2) { animation-delay: 0.2s; }
-        .fade-in:nth-child(3) { animation-delay: 0.3s; }
+.quote-source {
+  text-align: right;
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: var(--accent-sage);
+  font-weight: 500;
+  font-style: normal;
+}
 
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+/* Thought boxes */
+.thought-box {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin: 35px 0;
+  position: relative;
+  box-shadow: var(--shadow-soft);
+}
+
+.thought-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-cool), transparent);
+  border-radius: var(--radius) var(--radius) 0 0;
+  opacity: 0.6;
+}
+
+/* Footer */
+footer.site-footer { 
+  border-top: 1px solid var(--border-light); 
+  padding: 32px 0; 
+  text-align: center; 
+  color: var(--text-muted); 
+  background: var(--bg-secondary);
+  font-style: italic;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .post-title { font-size: 2rem; letter-spacing: 1px; }
+  .post-subtitle { font-size: 1.1rem; }
+  .post-content { font-size: 1rem; }
+  .quote-block, .thought-box { padding: 20px; margin: 25px 0; }
+  .quote-block::before { font-size: 1.8rem; top: -5px; left: 10px; }
+  article { padding: 80px 0 60px; }
+}
+
+/* Animation */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+.fade-in:nth-child(1) { animation-delay: 0.1s; }
+.fade-in:nth-child(2) { animation-delay: 0.2s; }
+.fade-in:nth-child(3) { animation-delay: 0.3s; }
+.fade-in:nth-child(4) { animation-delay: 0.4s; }
+.fade-in:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
     </style>
 </head>
 <body>
-    <nav>
-        <div class="nav-content">
-            <a href="/" class="nav-logo">Kovrin</a>
-            <a href="/journal.html" class="nav-link">← Back to Journal</a>
+    <nav class="site-nav">
+        <div class="container nav-content">
+            <a class="brand" href="/"><span class="brand-mark"></span> Kovrin</a>
+            <a href="/journal.html" class="back-link">Back to Journal</a>
         </div>
     </nav>
 
@@ -293,9 +386,9 @@
 
                 <div class="thought-box fade-in">
                     <p>At first, I thought maybe I just didn't understand the math well enough - that if I really learned how transformers worked, I'd finally "get" how intelligence emerges. So I started studying. I read about weights and biases, vector spaces and embeddings. I looked at how neural networks approximate functions, how they're trained on unimaginable quantities of human-generated data.</p>
-                    
+
                     <p>I got it.</p>
-                    
+
                     <p>And yet... it still felt <span class="highlight">dead</span> to me.</p>
                 </div>
 
@@ -334,10 +427,12 @@
 
                 <div class="thought-box fade-in">
                     <p>A symbolic system can say:<br>
-                    <em class="emphasis">"This symbol refers to that concept. This rule operates on that structure."</em></p>
+                        <em class="emphasis">"This symbol refers to that concept. This rule operates on that structure."</em>
+                    </p>
 
                     <p>A neural network just says:<br>
-                    <em class="emphasis">"This pattern statistically follows that one. Let's go."</em></p>
+                        <em class="emphasis">"This pattern statistically follows that one. Let's go."</em>
+                    </p>
                 </div>
 
                 <div class="fade-in">
@@ -366,12 +461,18 @@
 
                 <div class="thought-box fade-in">
                     <p>Perhaps the question isn't whether machines can think, but whether they can <span class="highlight">doubt</span>. Whether they can sit in the uncomfortable space between knowing and not-knowing, between being and seeming to be.</p>
-                    
+
                     <p>Maybe meaning begins not with perfect answers, but with <em class="emphasis">perfect questions</em>.</p>
                 </div>
             </div>
         </div>
     </article>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>"The soul becomes dyed with the color of its thoughts." — Marcus Aurelius</p>
+        </div>
+    </footer>
 
     <script>
         // Add scroll-triggered animations
