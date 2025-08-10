@@ -563,6 +563,41 @@ footer.site-footer {
 main {
   padding: 60px 0;
 }
+
+.research-methodology {
+  background: rgba(196, 181, 160, 0.06);
+  border: 1px solid var(--accent-warm);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin: 24px 0;
+}
+
+.fade-in {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.interdisciplinary-tag {
+  display: inline-block;
+  background: rgba(138, 155, 142, 0.1);
+  color: var(--accent-sage);
+  padding: 4px 12px;
+  border-radius: calc(var(--radius) * 2);
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin: 2px 4px 2px 0;
+  border: 1px solid rgba(138, 155, 142, 0.2);
+}
     </style>
 </head>
 <body>
@@ -592,9 +627,9 @@ main {
                 
                 <div class="intro-block">
                     <p class="intro-text">
-                        This is my learning journal; a living archive of thoughts, fragments, and questions.<br>
-                        I write about computation, behaviour, consciousness, and how systems,<br>
-                        human or machine, come to life.
+                        I am a researcher exploring computation, behavior, and consciousness—seeking to understand how both biological and artificial systems come to exhibit intelligence and agency. My work draws on <span class="highlight">cognitive science</span>, <span class="highlight">automata theory</span>, <span class="highlight">computational modeling</span>, and <span class="highlight">philosophy of mind</span>. Inspired by contemporary explorations such as NieR: Automata, I investigate questions of free will, identity, and the mechanistic nature of behavior.
+                        <br><br>
+                        This site documents my ongoing analyses and developing conclusions, reflecting the current stage of my research and intellectual growth. While still evolving, my work is guided by careful inquiry and a commitment to clarity and depth. Through this process, I aim to build a solid foundation in these interdisciplinary fields and contribute thoughtfully to academic conversations.
                     </p>
                 </div>
                 
@@ -610,53 +645,6 @@ main {
 
     <main>
         <div class="container">
-            <section class="section">
-                <div class="panel fade-in philosophical-panel">
-                    <div class="panel-rule"></div>
-                    <div class="section-heading">
-                        <span class="tick"></span>
-                        <h2>Philosophy</h2>
-                        <div class="heading-accent"></div>
-                    </div>
-                    <div class="section-content">
-                        <div class="thought-fragment">
-                            <p>I believe that the greatest power of the human mind lies in <span class="highlight">independent thought</span>, the willingness to ask questions rather than simply accepting inherited beliefs.</p>
-                        </div>
-                        
-                        <div class="philosophical-space"></div>
-                        
-                        <div class="thought-fragment">
-                            <p>This space explores the boundary between human consciousness and machine intelligence, inspired by NieR: Automata and the questions it poses about free will, identity, and mechanistic thought.</p>
-                        </div>
-                        
-                        <div class="reflection">
-                            <p>Every system, whether biological or artificial, operates on principles we're still learning to understand. My writing is an ongoing conversation with these ideas—a <span class="highlight">philosophical playground</span> where thoughts can evolve and even contradict themselves.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section">
-                <div class="panel fade-in" style="animation-delay:0.1s;">
-                    <div class="panel-rule"></div>
-                    <div class="section-heading"><span class="tick"></span><h2>Areas of Exploration</h2></div>
-                    <div class="section-content">
-                        <p>My focus spans <span class="highlight">cognitive science</span>, computation, automata theory, machine behavior, learning systems, and human consciousness. I'm interested in where these domains intersect and what they reveal about the nature of intelligence.</p>
-                        <p>Current explorations include <span class="highlight">systems thinking</span>, the mechanics of learning, and the philosophical implications of artificial intelligence. Each post is a fragment of understanding—a step in an ongoing journey of discovery.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section">
-                <div class="panel fade-in" style="animation-delay:0.2s;">
-                    <div class="panel-rule"></div>
-                    <div class="section-heading"><span class="tick"></span><h2>Learning as Daily Practice</h2></div>
-                    <div class="section-content">
-                        <p>This journal represents <span class="highlight">learning as a daily act</span>—not polished conclusions, but thoughts in progress. I write to understand, to question, and to connect ideas across disciplines that don't often speak to each other.</p>
-                        <p>The goal is to create a space that feels <span class="highlight">personal, thoughtful, raw, and alive</span>: not a polished publication or portfolio, but a genuine exploration of ideas that matter.</p>
-                    </div>
-                </div>
-            </section>
         </div>
     </main>
 
@@ -682,6 +670,14 @@ main {
                 }
             });
         })();
+
+        // Add staggered fade-in animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const panels = document.querySelectorAll('.panel');
+            panels.forEach((panel, index) => {
+                panel.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
     </script>
 </body>
 </html>
